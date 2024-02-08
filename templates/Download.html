@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+
+    <link rel="stylesheet" href="static/global.css" />
+    <link rel="stylesheet" href="static/Download.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap"
+    />
+  </head>
+  <body>
+    <main class="download">
+      <img
+        class="cloud-data-transfer"
+        alt=""
+        src="static/public/cloud-data-transfer@2x.png"
+      />
+
+      <button class="button" onclick="downloadImages()">
+        <img
+          class="download-image-icon"
+          alt=""
+          src="static/public/download-image@2x.png"
+        />
+
+        <div class="text">Download Image</div>
+      </button>
+      <section class="share">
+        <button class="whatsapp" >
+          <img class="vector-icon" alt="" src="static/public/vector.svg" />
+        </button>
+        <button class="whatsapp" onclick="shareOnWhatsApp()">
+          <img class="vector-icon1" alt="" src="static/public/vector1.svg" />
+        </button>
+        <button class="whatsapp">
+          <img class="vector-icon2" alt="" src="static/public/vector2.svg" />
+
+          <img class="vector-icon3" alt="" src="static/public/vector3.svg" />
+
+          <img class="vector-icon4" alt="" src="static/public/vector4.svg" />
+
+          <img class="vector-icon5" alt="" src="static/public/vector5.svg" />
+
+          <img class="vector-icon6" alt="" src="static/public/vector6.svg" />
+
+          <img class="vector-icon7" alt="" src="static/public/vector7.svg" />
+        </button>
+      </section>
+      <script>
+        function downloadImages() {
+          // Make an Ajax request to the Flask route to initiate the download
+          fetch('/download_images', {
+            method: 'GET',
+          })
+            .then(response => response.blob())
+            .then(blob => {
+              // Create a link element to trigger the download
+              const link = document.createElement('a');
+              link.href = window.URL.createObjectURL(blob);
+              link.download = 'good_images.zip';
+
+              // Append the link to the document and trigger the click event
+              document.body.appendChild(link);
+              link.click();
+
+              // Remove the link from the document
+              document.body.removeChild(link);
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
+        }
+        function shareOnWhatsApp() {
+          // You can customize the message and URL to share
+          const message = encodeURIComponent('Check out these images!');
+          const zipFileURL = '/static/downloads/good_images.zip';  // Update with the correct path
+
+          // Construct the WhatsApp share URL
+          const whatsappURL = `https://api.whatsapp.com/send?text=${message}%20${zipFileURL}`;
+
+          // Open a new window or redirect to the WhatsApp share URL
+          window.open(whatsappURL, '_blank');
+        }
+      </script>
+    </main>
+  </body>
+</html>

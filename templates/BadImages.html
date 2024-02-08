@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+
+    <link rel="stylesheet" href="static/global.css" />
+    <link rel="stylesheet" href="static/BadImages.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap"
+    />
+  </head>
+  <body>
+    <main class="bad-images">
+      <section class="option">
+        <button class="good" id="good">
+          <b class="text3">Good</b>
+        </button>
+        <button class="bad">
+          <b class="text3">Bad</b>
+        </button>
+      </section>
+      <section class="image-container">
+        {% for image in image_urls %}
+          <input type="checkbox" class="checkbox" value="{{ image }}" />
+          <label><img class="image-icon" alt="Bad Image" src="{{ image }}" /></label>
+        {% endfor %}
+      </section>
+      <div class="button-parent">
+        <button class="button3" onclick="removeSelectedImages('bad')">
+          <div class="text5">Add</div>
+        </button>
+        <div class="to-good">To Good</div>
+      </div>
+    </main>
+
+    <script>
+      function removeSelectedImages(folder) {
+        var checkboxes = document.querySelectorAll('.checkbox:checked');
+        var selectedImageURLs = Array.from(checkboxes).map(function (checkbox) {
+          return checkbox.value;
+        });
+
+        // Make an Ajax request to the Flask route to remove selected images
+        fetch('/remove_images', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            folder: folder,
+            selectedImageURLs: selectedImageURLs,
+          }),
+        })
+          .then(response => response.json())
+          .then(data => {
+            // Handle the response if needed
+            console.log('Response from server:', data);
+
+            // Reload the page or update the UI as needed
+            window.location.reload();
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+      }
+
+
+      var good = document.getElementById("good");
+      if (good) {
+        good.addEventListener("click", function (e) {
+          window.location.href = "/good";
+        });
+      }
+      </script>
+  </body>
+</html>

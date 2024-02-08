@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+
+    <link rel="stylesheet" href="static/global.css" />
+    <link rel="stylesheet" href="static/Upload.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap"
+    />
+  </head>
+  <body>
+    <main class="upload">
+      <img
+        class="man-uploading-data"
+        alt=""
+        src="static/public/man-uploading-data@2x.png"
+      />
+
+      <form action="/upload" method="post" enctype="multipart/form-data">
+        <label for="file" class="button1">
+          <img
+            class="upload-image-icon"
+            alt=""
+            src="static/public/upload-image@2x.png"
+          />
+          <div class="text1">Upload Images</div>
+        </label>
+        <input type="file" name="file" id="file" style="display: none;" accept=".png, .jpg, .jpeg, .gif" multiple />
+        <button type="submit" class="button2">
+          <div class="text1">Generate</div>
+          <img class="frame-icon" alt="" src="static/public/frame@2x.png" />
+        </button>
+      </form>
+    </main>
+  </body>
+</html>
